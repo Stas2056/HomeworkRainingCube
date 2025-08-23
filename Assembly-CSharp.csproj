@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{5FAF8A0A-3537-6DF3-6509-BD9819BC7487}</ProjectGuid>
+    <ProjectGuid>{9A7EBC06-B8D3-6BAB-3AD0-2EB1AEF005BB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -59,11 +59,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\ColorRandomiser.cs" />
-    <Compile Include="Assets\Scripts\Spawner.cs" />
-    <Compile Include="Assets\Scripts\RaycastTrigger.cs" />
-    <Compile Include="Assets\Scripts\Splitter.cs" />
-    <Compile Include="Assets\Scripts\Cube.cs" />
-    <Compile Include="Assets\Scripts\Exploder.cs" />
+    <Compile Include="Assets\Scripts\Arhive\Splitter.cs" />
+    <Compile Include="Assets\Scripts\Arhive\RaycastTrigger.cs" />
+    <Compile Include="Assets\Scripts\Pool.cs" />
+    <Compile Include="Assets\Scripts\Arhive\Cube.cs" />
+    <Compile Include="Assets\Scripts\Arhive\Exploder.cs" />
+    <Compile Include="Assets\Scripts\Arhive\Spawner.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
