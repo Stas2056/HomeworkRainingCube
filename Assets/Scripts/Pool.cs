@@ -31,19 +31,42 @@ public class Pool : MonoBehaviour
 
     private void ActionOnGet(GameObject obj)
     {
-        obj.transform.position=_startPoint.transform.position;
+        obj.transform.position = _startPoint.transform.position;
         obj.GetComponent<Rigidbody>().velocity = Vector3.zero;
         obj.SetActive(true);
+
+        Trigger trigger = obj.GetComponent<Trigger>();
+        Debug.Log("subscribe");
+        trigger.Triggered += () => TimeDelayedRelease(obj);
     }
 
     private void Start()
     {
-        InvokeRepeating(nameof(GetCube), 0.0f,_repeatRate);
+        InvokeRepeating(nameof(GetCube), 0.0f, _repeatRate);
     }
 
     private void GetCube()
     {
-        _pool.Get();
+        Debug.Log("active " + _pool.CountActive+ " inactive " + _pool.CountInactive+ " all " + _pool.CountAll);
+       
+        if (_pool.CountActive < _poolMaxSize)
+        {
+            _pool.Get();
+        }
+    }
+
+    private void TimeDelayedRelease(GameObject cube)
+    {
+        Invoke("ReleaseCube", 2f);
+    }
+
+    private void ReleaseCube(GameObject cube)
+    {
+        Debug.Log("release cube");
+        Trigger trigger = cube.GetComponent<Trigger>();
+        Debug.Log("UnSubscribe");
+        trigger.Triggered -= () => ReleaseCube(cube);
+
     }
 
 }

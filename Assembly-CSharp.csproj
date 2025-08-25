@@ -58,12 +58,14 @@
     <Analyzer Include="E:\Unity Hub\Unity Editor\2022.3.7f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\ColorRandomiser.cs" />
     <Compile Include="Assets\Scripts\Arhive\Splitter.cs" />
+    <Compile Include="Assets\Scripts\Trigger.cs" />
     <Compile Include="Assets\Scripts\Arhive\RaycastTrigger.cs" />
     <Compile Include="Assets\Scripts\Pool.cs" />
     <Compile Include="Assets\Scripts\Arhive\Cube.cs" />
     <Compile Include="Assets\Scripts\Arhive\Exploder.cs" />
+    <Compile Include="Assets\Scripts\ColorChanger.cs" />
+    <Compile Include="Assets\Scripts\Arhive\ColorRandomiser.cs" />
     <Compile Include="Assets\Scripts\Arhive\Spawner.cs" />
   </ItemGroup>
   <ItemGroup>
