@@ -2,11 +2,11 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Cube : MonoBehaviour
+public class GameObject : MonoBehaviour
 {
     [SerializeField] private int _spawnChance;
 
-    public event Action<Cube> Clicked;
+    public event Action<GameObject> Clicked;
 
     public Rigidbody Rigidbody { get; private set; }
     public int SpawnChance => _spawnChance;

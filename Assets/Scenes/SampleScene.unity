@@ -353,9 +353,6 @@ GameObject:
   - component: {fileID: 2117095135}
   - component: {fileID: 2117095134}
   - component: {fileID: 2117095138}
-  - component: {fileID: 2117095142}
-  - component: {fileID: 2117095141}
-  - component: {fileID: 2117095140}
   - component: {fileID: 2117095139}
   m_Layer: 0
   m_Name: ScriptoSphere
@@ -462,6 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78725e53882ebda4d8a89cb35b479cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _delayer: {fileID: 2117095139}
   _prefab: {fileID: 7552999421404727226, guid: 10f0b06e6679c5346b58911a975b14f4, type: 3}
   _startPoint: {fileID: 1179751644}
   _repeatRate: 0.3
@@ -474,59 +472,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2117095128}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e3d5875cac3094eb8b222819c74a62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spawner: {fileID: 2117095140}
-  _exploder: {fileID: 2117095142}
-  _raycastTrigger: {fileID: 2117095141}
-  _scaleDecrease: 2
-  _spawnChanceDecrease: 2
-  _spawnAmountMin: 2
-  _spawnAmountMax: 6
---- !u!114 &2117095140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117095128}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7450a2c139b286489b1db847cbc2309, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cube: {fileID: 0}
-  _startCubeCount: 3
---- !u!114 &2117095141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117095128}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03bdf572329e91d4dacbf9e1df51983a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2117095142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117095128}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67099d1f7966e554a8a8766889402f74, type: 3}
+  m_Script: {fileID: 11500000, guid: 589843aed6fa1bb469b20d4c7c31a626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseExplosionForce: 2500
-  _ExplosionForceModificator: 3
-  _baseExplosionRadius: 50
+  _pool: {fileID: 2117095138}
+  _minTime: 2
+  _maxTime: 5
 --- !u!1001 &3097891012683397517
 PrefabInstance:
   m_ObjectHideFlags: 0

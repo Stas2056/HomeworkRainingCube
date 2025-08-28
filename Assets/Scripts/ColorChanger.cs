@@ -6,14 +6,19 @@ public class ColorChanger : MonoBehaviour
     [SerializeField] private Trigger _trigger;
 
     private Renderer _renderer;
-    private Material _baseMaterial;
+    private Color _baseColor;
 
     private bool _isColorChanged;
 
     private void OnEnable()
     {
-        Debug.Log("enable");
-        _renderer.material = _baseMaterial;
+        if (_renderer == null)
+        {
+            _renderer = GetComponent<Renderer>();
+            _baseColor = _renderer.material.color;
+        }
+
+        _renderer.material.color = _baseColor;
         _trigger.Triggered += ChangeColor;
         _isColorChanged = false;
     }
@@ -23,19 +28,11 @@ public class ColorChanger : MonoBehaviour
         _trigger.Triggered -= ChangeColor;
     }
 
-    private void Start()
-    {
-        Debug.Log("start");
-        _renderer = GetComponent<Renderer>();
-        _baseMaterial = _renderer.material;
-    }
-
     private void ChangeColor()
     {
         if (_isColorChanged == false)
         {
-            Renderer renderer = GetComponent<Renderer>();
-            renderer.material.color = Random.ColorHSV();
+            _renderer.material.color = Random.ColorHSV();
             _isColorChanged = true;
         }
     }

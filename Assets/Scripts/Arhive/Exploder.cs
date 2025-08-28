@@ -8,7 +8,7 @@ public class Exploder : MonoBehaviour
     [SerializeField] private int _ExplosionForceModificator = 3;
     [SerializeField] private int _baseExplosionRadius = 50;
 
-    public void ExplodeChildrens(Cube cube, List<Rigidbody> rigidbodies)
+    public void ExplodeChildrens(GameObject cube, List<Rigidbody> rigidbodies)
     {
         foreach (Rigidbody spawnedCube in rigidbodies)
         {
@@ -34,7 +34,7 @@ public class Exploder : MonoBehaviour
         return rigidbodiesInExplosionRadius;
     }
 
-    public void Explode(Cube cube)
+    public void Explode(GameObject cube)
     {
         float cubeScaleModificator = cube.transform.localScale.x;
         float explosionRadius = _baseExplosionRadius / cubeScaleModificator;

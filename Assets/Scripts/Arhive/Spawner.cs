@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private Cube _cube;
+    [SerializeField] private GameObject _cube;
     [SerializeField] private int _startCubeCount = 3;
 
     private void Start()
@@ -11,13 +11,13 @@ public class Spawner : MonoBehaviour
         SpawnFirstCubes();
     }
 
-    public List<Rigidbody> Spawn(Cube cube, int spawnAmount, int spawnChance, float scaleDecrease)
+    public List<Rigidbody> Spawn(GameObject cube, int spawnAmount, int spawnChance, float scaleDecrease)
     {
         List<Rigidbody> spawnedCubesRigidbodies = new List<Rigidbody>();
 
         for (int i = 0; i < spawnAmount; i++)
         {
-            Cube newCube = Instantiate(cube, RandomIndent(cube.transform.position), cube.transform.rotation);
+            GameObject newCube = Instantiate(cube, RandomIndent(cube.transform.position), cube.transform.rotation);
             newCube.Init(spawnChance, scaleDecrease);
             spawnedCubesRigidbodies.Add(newCube.Rigidbody);
             newCube.Clicked += DestroyCube;
@@ -48,7 +48,7 @@ public class Spawner : MonoBehaviour
         return Random.Range(minValue, maxValue);
     }
 
-    private void DestroyCube(Cube cube)
+    private void DestroyCube(GameObject cube)
     {
         cube.Clicked -= DestroyCube;
         Destroy(cube.gameObject);
@@ -61,7 +61,7 @@ public class Spawner : MonoBehaviour
 
         for (int i = 0; i < _startCubeCount; i++)
         {
-            Cube cube = Instantiate(_cube, RandomIndent(), Quaternion.identity);
+            GameObject cube = Instantiate(_cube, RandomIndent(), Quaternion.identity);
             cube.Init(spawnChance, scaleDecrease);
             cube.Clicked += DestroyCube;
         }

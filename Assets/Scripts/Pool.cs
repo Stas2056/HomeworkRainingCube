@@ -1,25 +1,32 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class Pool : MonoBehaviour
 {
-    //создать пулл
-    //рандомизация спауна
+    //создать пулл +
+    //изменение цвета +-
     //таймер самоуничтожения
-    //изменение цвета
+    //рандомизация спауна
     //создать платформы
 
-    [SerializeField] private GameObject _prefab;
-    [SerializeField] private GameObject _startPoint;
+    [SerializeField] private Delayer _delayer;
+    [SerializeField] private UnityEngine.GameObject _prefab;
+    [SerializeField] private UnityEngine.GameObject _startPoint;
     [SerializeField] private float _repeatRate = 1f;
     [SerializeField] private int _poolCapacity = 5;
     [SerializeField] private int _poolMaxSize = 5;
 
-    private ObjectPool<GameObject> _pool;
+   public event Action<UnityEngine.GameObject> ToDelay;
+
+    private ObjectPool<UnityEngine.GameObject> _pool;
+  //  private Dictionary<UnityEngine.GameObject, bool> _isSend = new Dictionary<UnityEngine.GameObject, bool>();
+
 
     private void Awake()
     {
-        _pool = new ObjectPool<GameObject>(
+        _pool = new ObjectPool<UnityEngine.GameObject>(
         createFunc: () => Instantiate(_prefab),
         actionOnGet: (obj) => ActionOnGet(obj),
         actionOnRelease: (obj) => obj.SetActive(false),
@@ -29,15 +36,14 @@ public class Pool : MonoBehaviour
         maxSize: _poolMaxSize);
     }
 
-    private void ActionOnGet(GameObject obj)
+    private void OnEnable()
     {
-        obj.transform.position = _startPoint.transform.position;
-        obj.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        obj.SetActive(true);
+        _delayer.AfterDelay += ReleaseCube;
+    }
 
-        Trigger trigger = obj.GetComponent<Trigger>();
-        Debug.Log("subscribe");
-        trigger.Triggered += () => TimeDelayedRelease(obj);
+    private void OnDisable()
+    {
+        _delayer.AfterDelay -= ReleaseCube;
     }
 
     private void Start()
@@ -45,28 +51,51 @@ public class Pool : MonoBehaviour
         InvokeRepeating(nameof(GetCube), 0.0f, _repeatRate);
     }
 
+    private void ActionOnGet(UnityEngine.GameObject obj)
+    {
+        obj.transform.position = _startPoint.transform.position;
+        obj.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        obj.SetActive(true);
+                
+       //     _isSend.Add(obj, false);
+        
+        Trigger trigger = obj.GetComponent<Trigger>();
+        // Debug.Log("subscribe");
+        trigger.Triggered += () => TimeDelayedRelease(obj);
+    }
+
     private void GetCube()
     {
-        Debug.Log("active " + _pool.CountActive+ " inactive " + _pool.CountInactive+ " all " + _pool.CountAll);
-       
+        //  Debug.Log("active " + _pool.CountActive + " inactive " + _pool.CountInactive + " all " + _pool.CountAll);
+
         if (_pool.CountActive < _poolMaxSize)
         {
             _pool.Get();
         }
     }
 
-    private void TimeDelayedRelease(GameObject cube)
+    private void TimeDelayedRelease(UnityEngine.GameObject cube)
     {
-        Invoke("ReleaseCube", 2f);
+       // Debug.Log("TRY send to cor from pool " + _isSend[cube]);
+
+       // if (_isSend[cube] == false)
+       // {
+            Debug.Log("send to cor from pool");
+           ToDelay?.Invoke(cube);
+       //     _isSend[cube]=true;
+      //  }
     }
 
-    private void ReleaseCube(GameObject cube)
+    private void ReleaseCube(UnityEngine.GameObject cube)
     {
-        Debug.Log("release cube");
-        Trigger trigger = cube.GetComponent<Trigger>();
-        Debug.Log("UnSubscribe");
-        trigger.Triggered -= () => ReleaseCube(cube);
-
+        if (cube.activeInHierarchy)
+        {
+            //  Debug.Log("release cube");
+            _pool.Release(cube);
+         //   _isSend.Remove(cube);
+            Trigger trigger = cube.GetComponent<Trigger>();
+            // Debug.Log("UnSubscribe");
+            trigger.Triggered -= () => ReleaseCube(cube);
+        }
     }
-
 }

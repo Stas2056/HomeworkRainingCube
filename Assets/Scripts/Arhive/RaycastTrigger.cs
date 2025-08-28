@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RaycastTrigger : MonoBehaviour
 {  
-    public event Action<Cube> CubeClicked;
+    public event Action<GameObject> CubeClicked;
     
     private void Update()
     {
@@ -15,7 +15,7 @@ public class RaycastTrigger : MonoBehaviour
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                if (hit.collider.TryGetComponent(out Cube cube))
+                if (hit.collider.TryGetComponent(out GameObject cube))
                 {
                     CubeClicked?.Invoke(cube);
                     cube.InvokeDestroy();

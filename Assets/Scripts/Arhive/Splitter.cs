@@ -21,7 +21,7 @@ public class Splitter : MonoBehaviour
         _raycastTrigger.CubeClicked -= TrySpawn;
     }
 
-    private void TrySpawn(Cube cube)
+    private void TrySpawn(GameObject cube)
     {
         int minChance = 0;
         int maxChance = 100;
