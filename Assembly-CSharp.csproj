@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Arhive\RaycastTrigger.cs" />
     <Compile Include="Assets\Scripts\Pool.cs" />
     <Compile Include="Assets\Scripts\Delayer.cs" />
+    <Compile Include="Assets\Scripts\MyObject.cs" />
     <Compile Include="Assets\Scripts\Arhive\Exploder.cs" />
     <Compile Include="Assets\Scripts\ColorChanger.cs" />
     <Compile Include="Assets\Scripts\Arhive\ColorRandomiser.cs" />

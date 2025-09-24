@@ -17,7 +17,7 @@ public class Trigger : MonoBehaviour
         if (_isTriggered == false)
         {
             Triggered?.Invoke();
-            _isTriggered = true;
         }
+        _isTriggered = true;
     }
 }
