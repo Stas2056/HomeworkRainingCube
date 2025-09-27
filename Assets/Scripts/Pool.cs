@@ -3,21 +3,21 @@ using UnityEngine.Pool;
 
 public class Pool : MonoBehaviour
 {
-    [SerializeField] private UnityEngine.GameObject _prefab;
-    [SerializeField] private UnityEngine.GameObject _startPoint;
+    [SerializeField] private Cube _prefab;
+    [SerializeField] private GameObject _startPoint;
     [SerializeField] private float _repeatRate = 1f;
     [SerializeField] private int _poolCapacity = 5;
     [SerializeField] private int _poolMaxSize = 5;
 
-    private ObjectPool<UnityEngine.GameObject> _pool;
+    private ObjectPool<Cube> _pool;
 
     private void Awake()
     {
-        _pool = new ObjectPool<UnityEngine.GameObject>(
+        _pool = new ObjectPool<Cube>(
         createFunc: () => Instantiate(_prefab),
-        actionOnGet: (obj) => ActionOnGet(obj),
-        actionOnRelease: (obj) => obj.SetActive(false),
-        actionOnDestroy: (obj) => Destroy(obj),
+        actionOnGet: (cube) => ActionOnGet(cube),
+        actionOnRelease: (cube) => cube.gameObject.SetActive(false),
+        actionOnDestroy: (cube) => Destroy(cube),
         collectionCheck: true,
         defaultCapacity: _poolCapacity,
         maxSize: _poolMaxSize);
@@ -25,17 +25,18 @@ public class Pool : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating(nameof(GetCube), 0.0f, _repeatRate);
+        InvokeRepeating(nameof(SpawnCube), 0.0f, _repeatRate);
     }
 
-    private void ActionOnGet(UnityEngine.GameObject obj)
+    private void ActionOnGet(Cube cube)
     {
-        obj.transform.position = RandomisePosition(_startPoint.transform.position);
-        obj.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        obj.SetActive(true);
+        cube.transform.position = RandomisePosition(_startPoint.transform.position);
+        cube.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        GameObject cubeObject = cube.gameObject;
+        cube.gameObject.SetActive(true);
 
-        Trigger trigger = obj.GetComponent<Trigger>();
-        trigger.Triggered += () => TimeDelayedRelease(obj);
+        Trigger trigger = cube.GetComponent<Trigger>();
+        trigger.Triggered += () => TimeDelayedRelease(cube);
     }
 
     private Vector3 RandomisePosition(Vector3 position)
@@ -53,10 +54,10 @@ public class Pool : MonoBehaviour
 
     private int RandomRange(int range)
     {
-        return UnityEngine.Random.Range(-range, +range + 1);
+        return Random.Range(-range, +range + 1);
     }
 
-    private void GetCube()
+    private void SpawnCube()
     {
         if (_pool.CountActive < _poolMaxSize)
         {
@@ -64,29 +65,28 @@ public class Pool : MonoBehaviour
         }
     }
 
-    private void TimeDelayedRelease(UnityEngine.GameObject obj)
+    private void TimeDelayedRelease(Cube cube)
     {
-        Cube cube = obj.GetComponent<Cube>();
-        Delayer delayer = obj.GetComponent<Delayer>();
+        Delayer delayer = cube.GetComponent<Delayer>();
 
         if (cube.IsSendToCoroutine == false)
         {
             delayer.AfterDelay += ReleaseCube;
-            delayer.ToDelay(obj);
+            delayer.ToDelay(cube);
 
             cube.IsSendToCoroutine = true;
         }
     }
 
-    private void ReleaseCube(UnityEngine.GameObject obj)
+    private void ReleaseCube(Cube cube)
     {
-        Delayer delayer = obj.GetComponent<Delayer>();
+        Delayer delayer = cube.GetComponent<Delayer>();
 
-        if (obj.activeInHierarchy)
+        if (cube.gameObject.activeInHierarchy)
         {
-            _pool.Release(obj);
-            Trigger trigger = obj.GetComponent<Trigger>();
-            trigger.Triggered -= () => TimeDelayedRelease(obj);
+            _pool.Release(cube);
+            Trigger trigger = cube.GetComponent<Trigger>();
+            trigger.Triggered -= () => TimeDelayedRelease(cube);
             delayer.AfterDelay -= ReleaseCube;
         }
     }
