@@ -66,15 +66,15 @@ public class Pool : MonoBehaviour
 
     private void TimeDelayedRelease(UnityEngine.GameObject obj)
     {
-        MyObject myObject = obj.GetComponent<MyObject>();
+        Cube cube = obj.GetComponent<Cube>();
         Delayer delayer = obj.GetComponent<Delayer>();
 
-        if (myObject.IsSendToCoroutine == false)
+        if (cube.IsSendToCoroutine == false)
         {
             delayer.AfterDelay += ReleaseCube;
             delayer.ToDelay(obj);
 
-            myObject.IsSendToCoroutine = true;
+            cube.IsSendToCoroutine = true;
         }
     }
 
